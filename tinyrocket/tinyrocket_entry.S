@@ -20,7 +20,7 @@ _start:
 
   .data
 str:
-  .asciz "This is tinyos's dummy_payload.  To boot a real kernel, reconfigure bbl
+  .asciz "This is TinyRocket's dummy_payload.  To boot a real kernel, reconfigure bbl
 with the flag --with-payload=PATH, then rebuild bbl. Alternatively,
 bbl can be used in firmware-only mode by adding device-tree nodes
 for an external payload and use QEMU's -bios and -kernel options.\n

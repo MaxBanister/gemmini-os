@@ -1,0 +1,15 @@
+# See LICENSE for license details.
+
+tinyrocket_subproject_deps = \
+
+tinyrocket_hdrs = \
+
+tinyrocket_c_srcs = \
+
+tinyrocket_asm_srcs = \
+  tinyrocket_entry.S \
+
+tinyrocket_test_srcs =
+
+tinyrocket_install_prog_srcs = \
+  tinyrocket.c \
