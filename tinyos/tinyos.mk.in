@@ -1,0 +1,15 @@
+# See LICENSE for license details.
+
+tinyos_subproject_deps = \
+
+tinyos_hdrs = \
+
+tinyos_c_srcs = \
+
+tinyos_asm_srcs = \
+  tinyos_entry.S \
+
+tinyos_test_srcs =
+
+tinyos_install_prog_srcs = \
+  tinyos.c \
