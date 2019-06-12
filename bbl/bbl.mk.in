@@ -4,6 +4,7 @@ bbl_subproject_deps = \
 	util \
   softfloat \
   machine \
+  tinyrocket \
   dummy_payload \
 
 bbl_hdrs = \
@@ -16,9 +17,12 @@ bbl_asm_srcs = \
   payload.S \
   raw_logo.S \
 
-payload.o: bbl_payload
+payload.o: bbl_payload bbl_payload1
 
 bbl_payload: $(BBL_PAYLOAD)
+	if $(READELF) -h $< 2> /dev/null > /dev/null; then $(OBJCOPY) -O binary --set-section-flags .bss=alloc,load,contents $< $@; else cp $< $@; fi
+
+bbl_payload1: $(BBL_PAYLOAD1)
 	if $(READELF) -h $< 2> /dev/null > /dev/null; then $(OBJCOPY) -O binary --set-section-flags .bss=alloc,load,contents $< $@; else cp $< $@; fi
 
 raw_logo.o: bbl_logo_file

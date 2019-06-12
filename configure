@@ -590,6 +590,7 @@ LIBOBJS
 subprojects_enabled
 subprojects
 BBL_LOGO_FILE
+BBL_PAYLOAD1
 BBL_PAYLOAD
 BBL_ENABLE_LOGO
 WITH_ARCH
@@ -675,6 +676,7 @@ enable_optional_subprojects
 enable_vm
 enable_logo
 with_payload
+with_payload1
 with_logo
 enable_boot_machine
 enable_fp_emulation
@@ -1333,6 +1335,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-arch             Set the RISC-V architecture
   --with-payload          Set ELF payload for bbl
+  --with-payload1         Set ELF payload for TinyRocket
   --with-logo             Specify a better logo
 
 Some influential environment variables:
@@ -4254,6 +4257,27 @@ $as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
 else
 
    BBL_PAYLOAD=dummy_payload
+
+
+$as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
+
+
+fi
+
+
+
+# Check whether --with-payload1 was given.
+if test "${with_payload1+set}" = set; then :
+  withval=$with_payload1;
+   BBL_PAYLOAD1=$with_payload1
+
+
+$as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
+
+
+else
+
+   BBL_PAYLOAD1=tinyrocket
 
 
 $as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
