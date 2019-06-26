@@ -1334,8 +1334,8 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-arch             Set the RISC-V architecture
-  --with-payload          Set ELF payload for bbl
-  --with-payload1         Set ELF payload for TinyRocket
+  --with-payload          Set ELF payload for kernel 0
+  --with-payload1         Set ELF payload for kernel 1
   --with-logo             Specify a better logo
 
 Some influential environment variables:
@@ -4256,7 +4256,7 @@ $as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
 
 else
 
-   BBL_PAYLOAD=dummy_payload
+   BBL_PAYLOAD=tinyrocket
 
 
 $as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
@@ -4277,7 +4277,7 @@ $as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
 
 else
 
-   BBL_PAYLOAD1=tinyrocket
+   BBL_PAYLOAD1=dummy_payload
 
 
 $as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h

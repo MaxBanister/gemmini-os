@@ -1,10 +1,19 @@
 # See LICENSE for license details.
 
 tinyrocket_subproject_deps = \
+  util \
+  softfloat \
+  machine \
 
 tinyrocket_hdrs = \
+  frontend_tr.h \
+  syscall_tr.h \
+  pk.h \
 
 tinyrocket_c_srcs = \
+  syscall_tr.c \
+  handlers_tr.c \
+  frontend_tr.c \
 
 tinyrocket_asm_srcs = \
   tinyrocket_entry.S \

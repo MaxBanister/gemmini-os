@@ -11,7 +11,7 @@
 
 extern char _payload_start, _payload1_start, _payload_end; /* internal payloads */
 
-static int ready = 0;
+static int volatile ready = 0;
 static const void* entry_point;
 static const void* entry_point1;
 long disabled_hart_mask;
@@ -137,6 +137,7 @@ void boot_loader(uintptr_t dtb)
 #endif
   /* Use optional FDT preloaded external payload if present */
   if (kernel_start) {
+    // This almost certainly doesn't work with systolic
     entry_point  = kernel_start;
     entry_point1 = kernel_start;
   }
@@ -145,7 +146,7 @@ void boot_loader(uintptr_t dtb)
     entry_point1 = &_payload1_start;
   }
 
-  // Make entry points to be visible to all harts
+  // Make entry points visible to all harts
   mb();
   ready = 1;
 

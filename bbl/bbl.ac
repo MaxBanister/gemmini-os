@@ -6,21 +6,21 @@ AS_IF([test "x$enable_logo" = "xyes"], [
   AC_DEFINE([PK_ENABLE_LOGO],,[Define if the RISC-V logo is to be displayed])
 ])
 
-AC_ARG_WITH([payload], AS_HELP_STRING([--with-payload], [Set ELF payload for bbl]),
+AC_ARG_WITH([payload], AS_HELP_STRING([--with-payload], [Set ELF payload for kernel 0]),
   [
-   AC_SUBST([BBL_PAYLOAD], $with_payload, [Kernel payload for bbl])
+   AC_SUBST([BBL_PAYLOAD], $with_payload, [Kernel payload for TinyRocket])
    AC_DEFINE(RELAXED_ALIGNMENT,[0],[Use relaxed payload alignment])
   ], [
-   AC_SUBST([BBL_PAYLOAD], [dummy_payload], [Kernel payload for bbl])
+   AC_SUBST([BBL_PAYLOAD], [tinyrocket], [Kernel payload for TinyRocket])
    AC_DEFINE(RELAXED_ALIGNMENT,[1],[Use relaxed payload alignment])
   ])
 
-AC_ARG_WITH([payload1], AS_HELP_STRING([--with-payload1], [Set ELF payload for TinyRocket]),
+AC_ARG_WITH([payload1], AS_HELP_STRING([--with-payload1], [Set ELF payload for kernel 1]),
   [
-   AC_SUBST([BBL_PAYLOAD1], $with_payload1, [Kernel payload for TinyRocket])
+   AC_SUBST([BBL_PAYLOAD1], $with_payload1, [Kernel payload for Linux])
    AC_DEFINE(RELAXED_ALIGNMENT,[0],[Use relaxed payload alignment])
   ], [
-   AC_SUBST([BBL_PAYLOAD1], [tinyrocket], [Kernel payload for TinyRocket])
+   AC_SUBST([BBL_PAYLOAD1], [dummy_payload], [Kernel payload for Linux])
    AC_DEFINE(RELAXED_ALIGNMENT,[1],[Use relaxed payload alignment])
   ])
 
