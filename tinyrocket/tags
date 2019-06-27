@@ -1,0 +1,122 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ARRAY_SIZE	pk.h	44;"	d
+AT_FDCWD	syscall_tr.h	71;"	d
+AT_FDCWD	syscall_tr.h	72;"	d
+CLOCK_FREQ	syscall_tr.c	10;"	d	file:
+ERR_PTR	syscall_tr.h	68;"	d
+IS_ERR_VALUE	syscall_tr.h	67;"	d
+OLD_SYSCALL_THRESHOLD	syscall_tr.h	57;"	d
+PTR_ERR	syscall_tr.h	69;"	d
+SYS_access	syscall_tr.h	62;"	d
+SYS_brk	syscall_tr.h	15;"	d
+SYS_chdir	syscall_tr.h	20;"	d
+SYS_clock_gettime	syscall_tr.h	52;"	d
+SYS_close	syscall_tr.h	13;"	d
+SYS_dup	syscall_tr.h	45;"	d
+SYS_exit	syscall_tr.h	6;"	d
+SYS_exit_group	syscall_tr.h	7;"	d
+SYS_faccessat	syscall_tr.h	24;"	d
+SYS_fcntl	syscall_tr.h	42;"	d
+SYS_fstat	syscall_tr.h	22;"	d
+SYS_fstatat	syscall_tr.h	23;"	d
+SYS_ftruncate	syscall_tr.h	43;"	d
+SYS_getcwd	syscall_tr.h	21;"	d
+SYS_getdents	syscall_tr.h	44;"	d
+SYS_getegid	syscall_tr.h	31;"	d
+SYS_geteuid	syscall_tr.h	29;"	d
+SYS_getgid	syscall_tr.h	30;"	d
+SYS_getmainvars	syscall_tr.h	37;"	d
+SYS_getpid	syscall_tr.h	8;"	d
+SYS_getrlimit	syscall_tr.h	49;"	d
+SYS_getrusage	syscall_tr.h	51;"	d
+SYS_gettimeofday	syscall_tr.h	40;"	d
+SYS_getuid	syscall_tr.h	28;"	d
+SYS_ioctl	syscall_tr.h	48;"	d
+SYS_kill	syscall_tr.h	9;"	d
+SYS_link	syscall_tr.h	59;"	d
+SYS_linkat	syscall_tr.h	16;"	d
+SYS_lseek	syscall_tr.h	14;"	d
+SYS_lstat	syscall_tr.h	64;"	d
+SYS_madvise	syscall_tr.h	55;"	d
+SYS_mkdir	syscall_tr.h	61;"	d
+SYS_mkdirat	syscall_tr.h	18;"	d
+SYS_mmap	syscall_tr.h	32;"	d
+SYS_mprotect	syscall_tr.h	35;"	d
+SYS_mremap	syscall_tr.h	34;"	d
+SYS_munmap	syscall_tr.h	33;"	d
+SYS_open	syscall_tr.h	58;"	d
+SYS_openat	syscall_tr.h	12;"	d
+SYS_pread	syscall_tr.h	25;"	d
+SYS_prlimit64	syscall_tr.h	36;"	d
+SYS_pwrite	syscall_tr.h	26;"	d
+SYS_read	syscall_tr.h	10;"	d
+SYS_readlinkat	syscall_tr.h	46;"	d
+SYS_renameat	syscall_tr.h	19;"	d
+SYS_rt_sigaction	syscall_tr.h	38;"	d
+SYS_rt_sigprocmask	syscall_tr.h	47;"	d
+SYS_set_robust_list	syscall_tr.h	54;"	d
+SYS_set_tid_address	syscall_tr.h	53;"	d
+SYS_setrlimit	syscall_tr.h	50;"	d
+SYS_stat	syscall_tr.h	63;"	d
+SYS_time	syscall_tr.h	65;"	d
+SYS_times	syscall_tr.h	41;"	d
+SYS_uname	syscall_tr.h	27;"	d
+SYS_unlink	syscall_tr.h	60;"	d
+SYS_unlinkat	syscall_tr.h	17;"	d
+SYS_write	syscall_tr.h	11;"	d
+SYS_writev	syscall_tr.h	39;"	d
+_PK_H	pk.h	4;"	d
+_PK_SYSCALL_H	syscall_tr.h	4;"	d
+_RISCV_FRONTEND_H	frontend_tr.h	4;"	d
+__pad1	frontend_tr.h	/^  uint64_t __pad1;$/;"	m	struct:frontend_stat
+__pad2	frontend_tr.h	/^  uint32_t __pad2;$/;"	m	struct:frontend_stat
+__pad3	frontend_tr.h	/^  uint64_t __pad3;$/;"	m	struct:frontend_stat
+__pad4	frontend_tr.h	/^  uint64_t __pad4;$/;"	m	struct:frontend_stat
+__pad5	frontend_tr.h	/^  uint64_t __pad5;$/;"	m	struct:frontend_stat
+__unused4	frontend_tr.h	/^  uint32_t __unused4;$/;"	m	struct:frontend_stat
+__unused5	frontend_tr.h	/^  uint32_t __unused5;$/;"	m	struct:frontend_stat
+_start	tinyrocket_entry.S	/^_start:$/;"	l
+atime	frontend_tr.h	/^  uint64_t atime;$/;"	m	struct:frontend_stat
+badvaddr	pk.h	/^  long badvaddr;$/;"	m	struct:__anon1
+blksize	frontend_tr.h	/^  uint32_t blksize;$/;"	m	struct:frontend_stat
+blocks	frontend_tr.h	/^  uint64_t blocks;$/;"	m	struct:frontend_stat
+cause	pk.h	/^  long cause;$/;"	m	struct:__anon1
+copy_stat	frontend_tr.c	/^void copy_stat(struct stat* dest, struct frontend_stat* src)$/;"	f
+ctime	frontend_tr.h	/^  uint64_t ctime;$/;"	m	struct:frontend_stat
+dev	frontend_tr.h	/^  uint64_t dev;$/;"	m	struct:frontend_stat
+do_syscall	syscall_tr.c	/^long do_syscall(long a0, long a1, long a2, long a3, long a4, long a5, unsigned long n)$/;"	f
+epc	pk.h	/^  long epc;$/;"	m	struct:__anon1
+frontend_stat	frontend_tr.h	/^struct frontend_stat {$/;"	s
+frontend_syscall	frontend_tr.c	/^long frontend_syscall(long n, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3, uint64_t a4, uint64_t a5, uint64_t a6)$/;"	f
+gid	frontend_tr.h	/^  uint32_t gid;$/;"	m	struct:frontend_stat
+gpr	pk.h	/^  long gpr[32];$/;"	m	struct:__anon1
+handle_interrupt	handlers_tr.c	/^static void handle_interrupt(trapframe_t* tf)$/;"	f	file:
+handle_syscall	handlers_tr.c	/^static void handle_syscall(trapframe_t* tf)$/;"	f	file:
+handle_trap	handlers_tr.c	/^void handle_trap(trapframe_t* tf)$/;"	f
+ino	frontend_tr.h	/^  uint64_t ino;$/;"	m	struct:frontend_stat
+insn	pk.h	/^  long insn;$/;"	m	struct:__anon1
+insn_len	pk.h	/^static inline int insn_len(long insn)$/;"	f
+janky_print	tinyrocket_entry.S	/^janky_print:$/;"	l
+kassert	pk.h	24;"	d
+mode	frontend_tr.h	/^  uint32_t mode;$/;"	m	struct:frontend_stat
+mtime	frontend_tr.h	/^  uint64_t mtime;$/;"	m	struct:frontend_stat
+nlink	frontend_tr.h	/^  uint32_t nlink;$/;"	m	struct:frontend_stat
+panic	pk.h	23;"	d
+rdev	frontend_tr.h	/^  uint64_t rdev;$/;"	m	struct:frontend_stat
+shutdown	frontend_tr.c	/^void shutdown(int code)$/;"	f
+size	frontend_tr.h	/^  uint64_t size;$/;"	m	struct:frontend_stat
+status	pk.h	/^  long status;$/;"	m	struct:__anon1
+str	tinyrocket_entry.S	/^str:$/;"	l
+sys_exit	syscall_tr.c	/^void sys_exit(int code)$/;"	f
+sys_stub_nosys	syscall_tr.c	/^static int sys_stub_nosys()$/;"	f	file:
+sys_stub_success	syscall_tr.c	/^static int sys_stub_success()$/;"	f	file:
+syscall_t	syscall_tr.c	/^typedef long (*syscall_t)(long, long, long, long, long, long, long);$/;"	t	file:
+trap_entry	tinyrocket_entry.S	/^trap_entry:$/;"	l
+trap_stub	handlers_tr.c	/^static void trap_stub(trapframe_t* tf) {$/;"	f	file:
+trapframe_t	pk.h	/^} trapframe_t;$/;"	t	typeref:struct:__anon1
+uid	frontend_tr.h	/^  uint32_t uid;$/;"	m	struct:frontend_stat
