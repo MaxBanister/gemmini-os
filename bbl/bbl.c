@@ -91,6 +91,7 @@ static void protect_memory(void)
 
 void boot_other_hart(uintptr_t unused __attribute__((unused)))
 {
+  printm("booting other hart\n");
   const void* entry;
 
   int can_boot = 0;
@@ -104,8 +105,7 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
   if (hartid == 1) {
     // Arbitrarily make hart 1 TinyRocket
     entry = entry_point1;
-  }
-  else {
+  } else {
     entry = entry_point;
   }
 
@@ -122,6 +122,7 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
   enter_machine_mode(entry, hartid, dtb_output());
 #else /* Run bbl in supervisor mode */
   protect_memory();
+  printm("entering supervisor mode\n");
   enter_supervisor_mode(entry, hartid, dtb_output());
 #endif
 }
@@ -149,6 +150,6 @@ void boot_loader(uintptr_t dtb)
   // Make entry points visible to all harts
   mb();
   ready = 1;
-
+  printm("Here\n");
   boot_other_hart(0);
 }

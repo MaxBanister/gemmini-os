@@ -158,7 +158,6 @@ static void rest_of_boot_loader(uintptr_t kstack_top)
   //load_elf(args.argv[0], &current);
 
   //run_loaded_program(argc, args.argv, kstack_top);
-  printk("We here foo\n");
 }
 
 void boot_loader(uintptr_t dtb)

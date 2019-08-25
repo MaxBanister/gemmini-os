@@ -83,6 +83,7 @@ static uintptr_t mcall_clear_ipi()
 
 static uintptr_t mcall_shutdown()
 {
+  printm("Exiting...\n");
   poweroff(0);
 }
 
@@ -97,6 +98,7 @@ static uintptr_t mcall_set_timer(uint64_t when)
 static void send_ipi_many(uintptr_t* pmask, int event)
 {
   _Static_assert(MAX_HARTS <= 8 * sizeof(*pmask), "# harts > uintptr_t bits");
+  printm("sending ipi's; pmask=%d\n", *pmask);
   uintptr_t mask = hart_mask;
   if (pmask)
     mask &= load_uintptr_t(pmask, read_csr(mepc));
@@ -201,6 +203,7 @@ static void machine_page_fault(uintptr_t* regs, uintptr_t dummy, uintptr_t mepc)
   if (read_csr(mstatus) & MSTATUS_MPRV) {
     return redirect_trap(regs[12], regs[13], read_csr(mbadaddr));
   }
+  printm("machine page fault\n");
   bad_trap(regs, dummy, mepc);
 }
 
@@ -217,6 +220,7 @@ void trap_from_machine_mode(uintptr_t* regs, uintptr_t dummy, uintptr_t mepc)
     case CAUSE_STORE_ACCESS:
       return machine_page_fault(regs, dummy, mepc);
     default:
+      printm("trap from machine mode, mcause: %d\n", mcause);
       bad_trap(regs, dummy, mepc);
   }
 }

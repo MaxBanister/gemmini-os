@@ -63,15 +63,19 @@ _start:
   la t0, trap_entry
   csrw stvec, t0
   csrw sscratch, x0
-  csrw sie, x0
-  li t0, SSTATUS_SUM | SSTATUS_FS
+  csrwi sie, MIP_SSIP
+  li t0, SSTATUS_SUM | SSTATUS_FS | SSTATUS_SIE
   # can't use "csrsi" because longer than 5 bits
-  csrs sstatus, t0
+  # csrrsi x0, sstatus, SSTATUS_SIE
+  csrw sstatus, t0
 
   la a0, str
-  call janky_print
+  jal ra, janky_print
 
-  wfi
+1:wfi
+  #la a0, str2
+  #jal janky_print
+  j 1b
 
   # just in case
   li a7, SBI_SHUTDOWN
@@ -79,36 +83,49 @@ _start:
 
   .global  trap_entry
 trap_entry:
+  la a0, str3
+  jal ra, janky_print
+
   csrrw sp, sscratch, sp
   bnez sp, 1f
   csrr sp, sscratch
 1:addi sp,sp,-320
   save_tf
-  move  a0,sp
+  mv  a0,sp
+
   jal handle_trap
 
-  # exit for now
-  li a7, SBI_SHUTDOWN
-  ecall
-
-  #mv a0,sp
+  mv a0,sp
   # don't restore sscratch if trap came from kernel
   #andi s0,s0,SSTATUS_SPP
   #bnez s0,start_user
-  #addi sp,sp,320
-  #csrw sscratch,sp
+  addi sp,sp,320
+  csrw sscratch,sp
+
+  li a7, SBI_CLEAR_IPI
+  ecall
+
+  # wait for the next interrupt
+1:wfi
+  j 1b
 
   .globl janky_print
 janky_print:
-1:lbu t0, (a0)
-  beqz t0, 1f
+  mv a1, a0
+1:lbu a0, (a1)
+  beqz a0, 1f
   li a7, SBI_CONSOLE_PUTCHAR
   ecall
-  add a0, a0, 1
+  add a1, a1, 1
   j 1b
 1:ret
   
 
   .data
 str:
-  .asciz "Prepared to be interrupted\n"
+  .asciz "2222222\n"
+str2:
+  .asciz "GGGGGGGGG"
+str3:
+  .asciz "---------"
+

@@ -4151,6 +4151,51 @@ fi
 
     # Add subproject to our running list
 
+    subprojects="$subprojects tinyrocket"
+
+    # Process the subproject appropriately. If enabled add it to the
+    # $enabled_subprojects running shell variable, set a
+    # SUBPROJECT_ENABLED C define, and include the appropriate
+    # 'subproject.ac'.
+
+
+      { $as_echo "$as_me:${as_lineno-$LINENO}: configuring default subproject : tinyrocket" >&5
+$as_echo "$as_me: configuring default subproject : tinyrocket" >&6;}
+      ac_config_files="$ac_config_files tinyrocket.mk:tinyrocket/tinyrocket.mk.in"
+
+      enable_tinyrocket_sproj="yes"
+      subprojects_enabled="$subprojects_enabled tinyrocket"
+
+$as_echo "#define TINYROCKET_ENABLED /**/" >>confdefs.h
+
+
+
+
+
+
+    # Determine if this is a required or an optional subproject
+
+
+
+    # Determine if there is a group with the same name
+
+
+
+    # Create variations of the subproject name suitable for use as a CPP
+    # enabled define, a shell enabled variable, and a shell function
+
+
+
+
+
+
+
+
+
+
+
+    # Add subproject to our running list
+
     subprojects="$subprojects pk"
 
     # Process the subproject appropriately. If enabled add it to the
@@ -4256,7 +4301,7 @@ $as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
 
 else
 
-   BBL_PAYLOAD=tinyrocket
+   BBL_PAYLOAD=dummy_payload
 
 
 $as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
@@ -4277,7 +4322,7 @@ $as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
 
 else
 
-   BBL_PAYLOAD1=dummy_payload
+   BBL_PAYLOAD1=tinyrocket
 
 
 $as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
@@ -4398,51 +4443,6 @@ $as_echo "$as_me: configuring default subproject : dummy_payload" >&6;}
       subprojects_enabled="$subprojects_enabled dummy_payload"
 
 $as_echo "#define DUMMY_PAYLOAD_ENABLED /**/" >>confdefs.h
-
-
-
-
-
-
-    # Determine if this is a required or an optional subproject
-
-
-
-    # Determine if there is a group with the same name
-
-
-
-    # Create variations of the subproject name suitable for use as a CPP
-    # enabled define, a shell enabled variable, and a shell function
-
-
-
-
-
-
-
-
-
-
-
-    # Add subproject to our running list
-
-    subprojects="$subprojects tinyrocket"
-
-    # Process the subproject appropriately. If enabled add it to the
-    # $enabled_subprojects running shell variable, set a
-    # SUBPROJECT_ENABLED C define, and include the appropriate
-    # 'subproject.ac'.
-
-
-      { $as_echo "$as_me:${as_lineno-$LINENO}: configuring default subproject : tinyrocket" >&5
-$as_echo "$as_me: configuring default subproject : tinyrocket" >&6;}
-      ac_config_files="$ac_config_files tinyrocket.mk:tinyrocket/tinyrocket.mk.in"
-
-      enable_tinyrocket_sproj="yes"
-      subprojects_enabled="$subprojects_enabled tinyrocket"
-
-$as_echo "#define TINYROCKET_ENABLED /**/" >>confdefs.h
 
 
 
@@ -5269,11 +5269,11 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
+    "tinyrocket.mk") CONFIG_FILES="$CONFIG_FILES tinyrocket.mk:tinyrocket/tinyrocket.mk.in" ;;
     "pk.mk") CONFIG_FILES="$CONFIG_FILES pk.mk:pk/pk.mk.in" ;;
     "bbl.mk") CONFIG_FILES="$CONFIG_FILES bbl.mk:bbl/bbl.mk.in" ;;
     "softfloat.mk") CONFIG_FILES="$CONFIG_FILES softfloat.mk:softfloat/softfloat.mk.in" ;;
     "dummy_payload.mk") CONFIG_FILES="$CONFIG_FILES dummy_payload.mk:dummy_payload/dummy_payload.mk.in" ;;
-    "tinyrocket.mk") CONFIG_FILES="$CONFIG_FILES tinyrocket.mk:tinyrocket/tinyrocket.mk.in" ;;
     "machine.mk") CONFIG_FILES="$CONFIG_FILES machine.mk:machine/machine.mk.in" ;;
     "util.mk") CONFIG_FILES="$CONFIG_FILES util.mk:util/util.mk.in" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;

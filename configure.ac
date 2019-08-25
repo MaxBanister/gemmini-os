@@ -104,7 +104,7 @@ AC_SUBST(host_alias)
 # The '*' suffix indicates an optional subproject. The '**' suffix
 # indicates an optional subproject which is also the name of a group.
 
-MCPPBS_SUBPROJECTS([ pk, bbl, softfloat, dummy_payload, tinyrocket, machine, util ])
+MCPPBS_SUBPROJECTS([tinyrocket, pk, bbl, softfloat, dummy_payload, machine, util ])
 
 #-------------------------------------------------------------------------
 # MCPPBS subproject groups

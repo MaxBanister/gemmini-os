@@ -46,6 +46,7 @@ static void delegate_traps()
   if (!supports_extension('S'))
     return;
 
+  printm("Delegating traps\n");
   uintptr_t interrupts = MIP_SSIP | MIP_STIP | MIP_SEIP;
   uintptr_t exceptions =
     (1U << CAUSE_MISALIGNED_FETCH) |
@@ -57,6 +58,7 @@ static void delegate_traps()
 
   write_csr(mideleg, interrupts);
   write_csr(medeleg, exceptions);
+  printm("mideleg: %llx\n", read_csr(mideleg));
   assert(read_csr(mideleg) == interrupts);
   assert(read_csr(medeleg) == exceptions);
 }
@@ -183,6 +185,7 @@ void init_first_hart(uintptr_t hartid, uintptr_t dtb)
 
 void init_other_hart(uintptr_t hartid, uintptr_t dtb)
 {
+  printm("Initing other hart\n");
   hart_init();
   hart_plic_init();
   boot_other_hart(dtb);

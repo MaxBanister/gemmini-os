@@ -16,14 +16,23 @@ _start:
   j 1b
 
 1:
-  li a0, 1
-  li a1, MIP_SSIP
-  call send_ipi
+  # send_ipi_many takes a pointer to a bit mask
+  # of harts to send interrupts to; 2 is hart 1
+  la a0, tinyrocket_hart_no
+  # a1 doesn't matter in this case
+  li a7, SBI_SEND_IPI
+  ecall
 
-  #li a7, SBI_SHUTDOWN
-  #ecall
+1:wfi
+  j 1b
+
+  li a7, SBI_SHUTDOWN
+  ecall
 
   .data
+tinyrocket_hart_no:
+  .align 3
+  .word 2
 str:
-  .asciz "Hart 0: Sending interrupt to other core..."
+  .asciz "00000000000\n"
 
