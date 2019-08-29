@@ -17,7 +17,7 @@
 _payload_start:
   .incbin BBL_PAYLOAD
 
-#if RELAXED_ALIGNMENT
+#if RELAXED_ALIGNMENT1
   /* align payload minimally */
   .align 3
 #else

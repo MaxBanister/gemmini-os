@@ -18,10 +18,10 @@ AC_ARG_WITH([payload], AS_HELP_STRING([--with-payload], [Set ELF payload for ker
 AC_ARG_WITH([payload1], AS_HELP_STRING([--with-payload1], [Set ELF payload for kernel 1]),
   [
    AC_SUBST([BBL_PAYLOAD1], $with_payload1, [Kernel payload for TinyRocket])
-   AC_DEFINE(RELAXED_ALIGNMENT,[0],[Use relaxed payload alignment])
+   AC_DEFINE(RELAXED_ALIGNMENT1,[0],[Use relaxed payload alignment])
   ], [
    AC_SUBST([BBL_PAYLOAD1], [tinyrocket], [Kernel payload for TinyRocket])
-   AC_DEFINE(RELAXED_ALIGNMENT,[1],[Use relaxed payload alignment])
+   AC_DEFINE(RELAXED_ALIGNMENT1,[1],[Use relaxed payload alignment])
   ])
 
 AC_ARG_WITH([logo], AS_HELP_STRING([--with-logo], [Specify a better logo]),
