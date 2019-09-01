@@ -109,7 +109,7 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
     entry = entry_point;
   }
 
-  if ((1 << hartid) & disabled_hart_mask) {
+  if (((1 << hartid) & disabled_hart_mask) && hartid != 1) {
     while (1) {
       __asm__ volatile("wfi");
 #ifdef __riscv_div

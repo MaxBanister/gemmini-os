@@ -46,7 +46,6 @@ static void delegate_traps()
   if (!supports_extension('S'))
     return;
 
-  printm("Delegating traps\n");
   uintptr_t interrupts = MIP_SSIP | MIP_STIP | MIP_SEIP;
   uintptr_t exceptions =
     (1U << CAUSE_MISALIGNED_FETCH) |
@@ -58,7 +57,6 @@ static void delegate_traps()
 
   write_csr(mideleg, interrupts);
   write_csr(medeleg, exceptions);
-  printm("mideleg: %llx\n", read_csr(mideleg));
   assert(read_csr(mideleg) == interrupts);
   assert(read_csr(medeleg) == exceptions);
 }
@@ -150,8 +148,10 @@ static void hart_plic_init()
 static void wake_harts()
 {
   for (int hart = 0; hart < MAX_HARTS; ++hart)
-    if ((((~disabled_hart_mask & hart_mask) >> hart) & 1))
+    if ((((~disabled_hart_mask & hart_mask & 2) >> hart) & 1)) {
+      printm("Waking up hart %d\n", hart);
       *OTHER_HLS(hart)->ipi = 1; // wakeup the hart
+    }
 }
 
 void init_first_hart(uintptr_t hartid, uintptr_t dtb)
@@ -185,7 +185,6 @@ void init_first_hart(uintptr_t hartid, uintptr_t dtb)
 
 void init_other_hart(uintptr_t hartid, uintptr_t dtb)
 {
-  printm("Initing other hart\n");
   hart_init();
   hart_plic_init();
   boot_other_hart(dtb);
@@ -207,6 +206,7 @@ void setup_pmp(void)
 
 void enter_supervisor_mode(void (*fn)(uintptr_t), uintptr_t arg0, uintptr_t arg1)
 {
+  printm("Entering supervisor mode %d\n", arg0);
   uintptr_t mstatus = read_csr(mstatus);
   mstatus = INSERT_FIELD(mstatus, MSTATUS_MPP, PRV_S);
   mstatus = INSERT_FIELD(mstatus, MSTATUS_MPIE, 0);

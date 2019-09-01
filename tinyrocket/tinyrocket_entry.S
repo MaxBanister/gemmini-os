@@ -123,7 +123,7 @@ janky_print:
 
   .data
 str:
-  .asciz "2222222\n"
+  .asciz "11111111\n"
 str2:
   .asciz "GGGGGGGGG"
 str3:

@@ -4317,7 +4317,7 @@ if test "${with_payload1+set}" = set; then :
    BBL_PAYLOAD1=$with_payload1
 
 
-$as_echo "#define RELAXED_ALIGNMENT 0" >>confdefs.h
+$as_echo "#define RELAXED_ALIGNMENT1 0" >>confdefs.h
 
 
 else
@@ -4325,7 +4325,7 @@ else
    BBL_PAYLOAD1=tinyrocket
 
 
-$as_echo "#define RELAXED_ALIGNMENT 1" >>confdefs.h
+$as_echo "#define RELAXED_ALIGNMENT1 1" >>confdefs.h
 
 
 fi
