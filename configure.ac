@@ -17,9 +17,9 @@
 # Project metadata
 #-------------------------------------------------------------------------
 
-m4_define( proj_name,         [RISC-V Proxy Kernel])
-m4_define( proj_maintainer,   [Andrew Waterman])
-m4_define( proj_abbreviation, [riscv-pk])
+m4_define( proj_name,         [RISC-V Systolic Array Bootloader])
+m4_define( proj_maintainer,   [Max Banister])
+m4_define( proj_abbreviation, [systolic-bbl])
 
 #-------------------------------------------------------------------------
 # Project version information
@@ -114,7 +114,7 @@ AC_ARG_WITH([mem-start], AS_HELP_STRING([--with-mem-start], [Set physical memory
 # The '*' suffix indicates an optional subproject. The '**' suffix
 # indicates an optional subproject which is also the name of a group.
 
-MCPPBS_SUBPROJECTS([ pk, bbl, softfloat, dummy_payload, machine, util ])
+MCPPBS_SUBPROJECTS([tinyrocket, pk, bbl, softfloat, dummy_payload, machine, util ])
 
 #-------------------------------------------------------------------------
 # MCPPBS subproject groups

@@ -9,8 +9,11 @@
 #include "fdt.h"
 #include <string.h>
 
-extern char _payload_start, _payload_end; /* internal payload */
+extern char _payload_start, _payload1_start, _payload_end; /* internal payloads */
+
+static int volatile ready = 0;
 static const void* entry_point;
+static const void* entry_point1;
 long disabled_hart_mask;
 
 static uintptr_t dtb_output()
@@ -88,14 +91,25 @@ static void protect_memory(void)
 
 void boot_other_hart(uintptr_t unused __attribute__((unused)))
 {
+  printm("booting other hart\n");
   const void* entry;
+
+  int can_boot = 0;
   do {
-    entry = entry_point;
+    can_boot = ready;
     mb();
-  } while (!entry);
+  } while (!can_boot);
 
   long hartid = read_csr(mhartid);
-  if ((1 << hartid) & disabled_hart_mask) {
+
+  if (hartid == 1) {
+    // Arbitrarily make hart 1 TinyRocket
+    entry = entry_point1;
+  } else {
+    entry = entry_point;
+  }
+
+  if (((1 << hartid) & disabled_hart_mask) && hartid != 1) {
     while (1) {
       __asm__ volatile("wfi");
 #ifdef __riscv_div
@@ -108,6 +122,7 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
   enter_machine_mode(entry, hartid, dtb_output());
 #else /* Run bbl in supervisor mode */
   protect_memory();
+  printm("entering supervisor mode\n");
   enter_supervisor_mode(entry, hartid, dtb_output());
 #endif
 }
@@ -121,8 +136,20 @@ void boot_loader(uintptr_t dtb)
 #ifdef PK_PRINT_DEVICE_TREE
   fdt_print(dtb_output());
 #endif
-  mb();
   /* Use optional FDT preloaded external payload if present */
-  entry_point = kernel_start ? kernel_start : &_payload_start;
+  if (kernel_start) {
+    // This almost certainly doesn't work with systolic
+    entry_point  = kernel_start;
+    entry_point1 = kernel_start;
+  }
+  else {
+    entry_point  = &_payload_start;
+    entry_point1 = &_payload1_start;
+  }
+
+  // Make entry points visible to all harts
+  mb();
+  ready = 1;
+  printm("Here\n");
   boot_other_hart(0);
 }

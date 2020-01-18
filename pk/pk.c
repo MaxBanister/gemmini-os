@@ -176,9 +176,9 @@ static void rest_of_boot_loader(uintptr_t kstack_top)
   long phdrs[128];
   current.phdr = (uintptr_t)phdrs;
   current.phdr_size = sizeof(phdrs);
-  load_elf(args.argv[0], &current);
+  //load_elf(args.argv[0], &current);
 
-  run_loaded_program(argc, args.argv, kstack_top);
+  //run_loaded_program(argc, args.argv, kstack_top);
 }
 
 void boot_loader(uintptr_t dtb)
@@ -189,7 +189,7 @@ void boot_loader(uintptr_t dtb)
   write_csr(sie, 0);
   set_csr(sstatus, SSTATUS_SUM | SSTATUS_FS | SSTATUS_VS);
 
-  file_init();
+  //file_init();
   enter_supervisor_mode(rest_of_boot_loader, pk_vm_init(), 0);
 }
 

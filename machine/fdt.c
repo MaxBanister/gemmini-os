@@ -649,6 +649,7 @@ static void hart_filter_prop(const struct fdt_scan_prop *prop, void *extra)
 
 static bool hart_filter_mask(const struct hart_filter *filter)
 {
+  if (filter->hart == 1) return true;
   if (filter->mmu_type == NULL) return true;
   if (strcmp(filter->status, "okay")) return true;
 #if __riscv_xlen == 32

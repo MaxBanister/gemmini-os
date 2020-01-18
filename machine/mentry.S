@@ -282,6 +282,9 @@ do_reset:
   # masked harts never start
   la a4, disabled_hart_mask
   LOAD a4, 0(a4)
+  # It's okay for hart 1 (2 in bitmask) to boot
+  # ~2 == 13
+  and a4, a4, 13
   srl a4, a4, a3
   andi a4, a4, 1
   bnez a4, .LmultiHart

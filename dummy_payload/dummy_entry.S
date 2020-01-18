@@ -1,6 +1,7 @@
 // See LICENSE for license details.
 
 #include "mcall.h"
+#include "mtrap.h"
 
   .section ".text.init"
   .globl _start
@@ -15,16 +16,23 @@ _start:
   j 1b
 
 1:
+  # send_ipi_many takes a pointer to a bit mask
+  # of harts to send interrupts to; 2 is hart 1
+  la a0, tinyrocket_hart_no
+  # a1 doesn't matter in this case
+  li a7, SBI_SEND_IPI
+  ecall
+
+1:wfi
+  j 1b
+
   li a7, SBI_SHUTDOWN
   ecall
 
   .data
+tinyrocket_hart_no:
+  .align 3
+  .word 2
 str:
-  .asciz "This is bbl's dummy_payload.  To boot a real kernel, reconfigure bbl
-with the flag --with-payload=PATH, then rebuild bbl. Alternatively,
-bbl can be used in firmware-only mode by adding device-tree nodes
-for an external payload and use QEMU's -bios and -kernel options.\n
-    chosen {
-        riscv,kernel-start = <payload_start>;
-        riscv,kernel-end = <payload_end>;
-    };\n\n"
+  .asciz "00000000000\n"
+
