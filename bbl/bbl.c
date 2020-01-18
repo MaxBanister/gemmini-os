@@ -7,13 +7,12 @@
 #include "bits.h"
 #include "config.h"
 #include "fdt.h"
+#include "../gemmini/gemmini_hart_mask.h"
 #include <string.h>
 
-extern char _payload_start, _payload1_start, _payload_end; /* internal payloads */
-
-static int volatile ready = 0;
-static const void* entry_point;
-static const void* entry_point1;
+/* internal payloads */
+extern char _payload_start, _payload1_start, _payload_end;
+static const void *entry_point, *entry_point1;
 long disabled_hart_mask;
 
 static uintptr_t dtb_output()
@@ -91,25 +90,11 @@ static void protect_memory(void)
 
 void boot_other_hart(uintptr_t unused __attribute__((unused)))
 {
-  printm("booting other hart\n");
-  const void* entry;
-
-  int can_boot = 0;
-  do {
-    can_boot = ready;
-    mb();
-  } while (!can_boot);
-
+  const void* entry = NULL;
   long hartid = read_csr(mhartid);
+  long hart_bit = 1 << hartid;
 
-  if (hartid == 1) {
-    // Arbitrarily make hart 1 TinyRocket
-    entry = entry_point1;
-  } else {
-    entry = entry_point;
-  }
-
-  if (((1 << hartid) & disabled_hart_mask) && hartid != 1) {
+  if (hart_bit & disabled_hart_mask) {
     while (1) {
       __asm__ volatile("wfi");
 #ifdef __riscv_div
@@ -117,6 +102,11 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
 #endif
     }
   }
+
+  if (hart_bit & GEMMINI_HART_MASK)
+    while ((entry = entry_point1) == NULL) mb();
+  else
+    while ((entry = entry_point) == NULL) mb();
 
 #ifdef BBL_BOOT_MACHINE
   enter_machine_mode(entry, hartid, dtb_output());
@@ -138,18 +128,14 @@ void boot_loader(uintptr_t dtb)
 #endif
   /* Use optional FDT preloaded external payload if present */
   if (kernel_start) {
-    // This almost certainly doesn't work with systolic
+    /* This is not meant to work with Gemmini */
     entry_point  = kernel_start;
     entry_point1 = kernel_start;
   }
   else {
+    /* Set the entry point for both payloads */
     entry_point  = &_payload_start;
     entry_point1 = &_payload1_start;
   }
-
-  // Make entry points visible to all harts
-  mb();
-  ready = 1;
-  printm("Here\n");
   boot_other_hart(0);
 }

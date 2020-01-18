@@ -108,10 +108,10 @@ VPATH := $(addprefix $(src_dir)/, $(sprojs_enabled))
 #  - CPPFLAGS : flags for the preprocessor (eg. -I,-D)
 #  - CXXFLAGS : flags for C++ compiler (eg. -Wall,-g,-O3)
 
-CC            := @CC@
-READELF       := @READELF@
-OBJCOPY       := @OBJCOPY@
-CFLAGS        := @CFLAGS@ $(CFLAGS) $(march) $(mabi) -DBBL_PAYLOAD=\"bbl_payload\" -DBBL_PAYLOAD1=\"bbl_payload1\" -DBBL_LOGO_FILE=\"bbl_logo_file\"
+CC            := riscv64-unknown-linux-gnu-@CC@
+READELF       := riscv64-unknown-linux-gnu-@READELF@
+OBJCOPY       := riscv64-unknown-linux-gnu-@OBJCOPY@
+CFLAGS        := @CFLAGS@ $(CFLAGS) $(march) $(mabi) -DBBL_PAYLOAD=\"bbl_payload\" -DBBL_PAYLOAD1=\"bbl_payload1\" -DBBL_LOGO_FILE=\"bbl_logo_file\" -fno-stack-protector -U_FORTIFY_SOURCE
 BBL_PAYLOAD   := @BBL_PAYLOAD@
 BBL_PAYLOAD1  := @BBL_PAYLOAD1@
 COMPILE       := $(CC) -MMD -MP $(CFLAGS) \
@@ -127,8 +127,8 @@ LINK          := $(LD) $(LDFLAGS)
 
 # Library creation
 
-AR            := @AR@
-RANLIB        := @RANLIB@
+AR            := riscv64-unknown-linux-gnu-@AR@
+RANLIB        := riscv64-unknown-linux-gnu-@RANLIB@
 
 # Host simulator
 

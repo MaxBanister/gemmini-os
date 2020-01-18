@@ -1,0 +1,16 @@
+# See LICENSE for license details.
+
+gemmini_subproject_deps = \
+
+gemmini_hdrs = \
+  gemmini.h \
+
+gemmini_c_srcs = \
+
+gemmini_asm_srcs = \
+  gemmini_entry.S \
+
+gemmini_test_srcs =
+
+gemmini_install_prog_srcs = \
+  gemmini.c \

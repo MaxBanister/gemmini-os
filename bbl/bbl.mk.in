@@ -6,6 +6,7 @@ bbl_subproject_deps = \
   machine \
   tinyrocket \
   dummy_payload \
+  gemmini \
 
 bbl_hdrs = \
   bbl.h \
