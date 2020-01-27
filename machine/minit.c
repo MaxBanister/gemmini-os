@@ -12,6 +12,7 @@
 #include "htif.h"
 #include <string.h>
 #include <limits.h>
+#include <stddef.h>
 
 pte_t* root_page_table;
 uintptr_t mem_size;
@@ -98,6 +99,8 @@ static void fp_init()
 hls_t* hls_init(uintptr_t id)
 {
   hls_t* hls = OTHER_HLS(id);
+  printm("Size of hls: %d\r\n", sizeof(*hls));
+  printm("Offset of timecmp, satp: %d, %d\r\n", offsetof(hls_t, timecmp), offsetof(hls_t, satp));
   memset(hls, 0, sizeof(*hls));
   return hls;
 }
@@ -163,6 +166,7 @@ static void hart_plic_init()
 
 static void wake_harts()
 {
+  printm("disabled hart mask in wake_harts(): %lx\r\n", disabled_hart_mask);
   for (int hart = 0; hart < MAX_HARTS; ++hart)
     if ((((~disabled_hart_mask & hart_mask & 2) >> hart) & 1)) {
       printm("Waking up hart %d\n", hart);

@@ -65,12 +65,11 @@ _start:
   csrw sscratch, x0
   csrwi sie, MIP_SSIP
   li t0, SSTATUS_SUM | SSTATUS_FS | SSTATUS_SIE
-  # can't use "csrsi" because longer than 5 bits
-  # csrrsi x0, sstatus, SSTATUS_SIE
   csrw sstatus, t0
+  la sp, kstack_end
 
-  la a0, str
-  jal ra, janky_print
+  //la a0, str
+  //jal ra, janky_print
 
 1:wfi
   #la a0, str2
@@ -81,19 +80,26 @@ _start:
   li a7, SBI_SHUTDOWN
   ecall
 
+  .align 2
   .global  trap_entry
 trap_entry:
+  li t3, 0x1337
   la a0, str3
   jal ra, janky_print
 
   csrrw sp, sscratch, sp
   bnez sp, 1f
-  csrr sp, sscratch
+  # Trap came from S-mode
+  csrrw sp, sscratch, sp
 1:addi sp,sp,-320
   save_tf
   mv  a0,sp
 
-  jal handle_trap
+  jal ra, handle_trap
+  //ebreak
+
+  la a0, str4
+  jal ra, janky_print
 
   mv a0,sp
   # don't restore sscratch if trap came from kernel
@@ -108,8 +114,14 @@ trap_entry:
   # wait for the next interrupt
 1:wfi
   j 1b
+  
+  .global gemmini_finish
+gemmini_finish:
+  li a7, SBI_GEMMINI_FIN
+  ecall
+  ret
 
-  .globl janky_print
+  .global janky_print
 janky_print:
   mv a1, a0
 1:lbu a0, (a1)
@@ -127,5 +139,12 @@ str:
 str2:
   .asciz "GGGGGGGGG"
 str3:
-  .asciz "---------"
+  .asciz "+"
+str4:
+  .asciz "After handle_trap\n"
 
+  .bss
+  .align RISCV_PGSHIFT
+kstack:
+  .skip RISCV_PGSIZE * 2
+kstack_end:

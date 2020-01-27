@@ -1,7 +1,7 @@
 // See LICENSE for license details.
 
-#ifndef _TR_H
-#define _TR_H
+#ifndef _GEMMINI_H
+#define _GEMMINI_H
 
 #ifndef __ASSEMBLER__
 

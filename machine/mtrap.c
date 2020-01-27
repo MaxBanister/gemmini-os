@@ -12,6 +12,7 @@
 #include "fdt.h"
 #include "unprivileged_memory.h"
 #include "disabled_hart_mask.h"
+#include "../gemmini/gemmini_harts.h"
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -57,10 +58,13 @@ void printm(const char* s, ...)
 
 static void send_ipi(uintptr_t recipient, int event)
 {
-  if (((disabled_hart_mask >> recipient) & 1) && recipient != 1) return;
+  /* Allow interrupts to be sent to Gemmini */
+  if (((disabled_hart_mask & ~GEMMINI_HART_MASK) >> recipient) & 1)
+    return;
   atomic_or(&OTHER_HLS(recipient)->mipi_pending, event);
   mb();
-  printm("Sending ipi to hart %d\n", recipient);
+  printm("Sending ipi to hart %d from hart %d\r\n", recipient, read_csr(mhartid));
+  printm("OTHER_HLS ipi: %p\n", OTHER_HLS(recipient)->ipi);
   *OTHER_HLS(recipient)->ipi = 1;
 }
 
@@ -102,6 +106,7 @@ static void send_ipi_many(uintptr_t* pmask, int event)
   if (pmask)
     mask &= load_uintptr_t(pmask, read_csr(mepc));
 
+  printm("Send ipi many: %lx\r\n", mask);
   // send IPIs to everyone
   for (uintptr_t i = 0, m = mask; m; i++, m >>= 1)
     if (m & 1)
@@ -130,6 +135,7 @@ void mcall_trap(uintptr_t* regs, uintptr_t mcause, uintptr_t mepc)
   write_csr(mepc, mepc + 4);
 
   uintptr_t n = regs[17], arg0 = regs[10], arg1 = regs[11], retval, ipi_type;
+  uintptr_t ipi_dest;
 
   switch (n)
   {
@@ -164,6 +170,28 @@ send_ipi:
 #else
       retval = mcall_set_timer(arg0);
 #endif
+      break;
+    case SBI_GEMMINI_EXEC:
+      HLS()->from_hart = -1ULL;
+      OTHER_HLS(GEMMINI_HART)->satp = arg0;
+      OTHER_HLS(GEMMINI_HART)->fp = arg1;
+      OTHER_HLS(GEMMINI_HART)->from_hart = read_csr(mhartid);
+      printm("Sending fp to gemmini...\r\n");
+
+      send_ipi(GEMMINI_HART, IPI_SOFT);
+      retval = 0;
+      break;
+    case SBI_GEMMINI_FIN:
+      /* Reuse the from_hart field for signalling an IPI is from gemmini */
+      OTHER_HLS(HLS()->from_hart)->from_hart = read_csr(mhartid);
+      HLS()->satp = 0;
+      HLS()->fp = 0;
+      ipi_dest = HLS()->from_hart;
+      HLS()->from_hart = -1ULL;
+
+      printm("Sending ipi back to sender...\r\n");
+      send_ipi(ipi_dest, IPI_SOFT);
+      retval = 0;
       break;
     default:
       retval = -ENOSYS;

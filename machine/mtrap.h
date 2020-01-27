@@ -14,8 +14,8 @@
 #ifndef __ASSEMBLER__
 
 #include <stdint.h>
-#include <stddef.h>
 #include <stdarg.h>
+#include <stddef.h>
 
 #define read_const_csr(reg) ({ unsigned long __tmp; \
   asm ("csrr %0, " #reg : "=r"(__tmp)); \
@@ -46,6 +46,11 @@ typedef struct {
   volatile uintptr_t* plic_m_ie;
   volatile uint32_t* plic_s_thresh;
   volatile uintptr_t* plic_s_ie;
+
+  /* Gemmini only fields */
+  volatile uintptr_t satp;
+  volatile uintptr_t fp;
+  volatile uintptr_t from_hart;
 } hls_t;
 
 #define MACHINE_STACK_TOP() ({ \
@@ -80,23 +85,26 @@ static inline void wfi()
 
 #endif // !__ASSEMBLER__
 
-#define IPI_SOFT       0x1
-#define IPI_FENCE_I    0x2
-#define IPI_SFENCE_VMA 0x4
-#define IPI_HALT       0x8
+#define IPI_SOFT         0x1
+#define IPI_FENCE_I      0x2
+#define IPI_SFENCE_VMA   0x4
+#define IPI_HALT         0x8
 
 #define MACHINE_STACK_SIZE RISCV_PGSIZE
 #define MENTRY_HLS_OFFSET (INTEGER_CONTEXT_SIZE + SOFT_FLOAT_CONTEXT_SIZE)
 #define MENTRY_FRAME_SIZE (MENTRY_HLS_OFFSET + HLS_SIZE)
 #define MENTRY_IPI_OFFSET (MENTRY_HLS_OFFSET)
 #define MENTRY_IPI_PENDING_OFFSET (MENTRY_HLS_OFFSET + REGBYTES)
+#define MENTRY_SATP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 7)
+#define MENTRY_FP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 8)
+#define MENTRY_FROM_HART_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 9)
 
 #ifdef __riscv_flen
 # define SOFT_FLOAT_CONTEXT_SIZE 0
 #else
 # define SOFT_FLOAT_CONTEXT_SIZE (8 * 32)
 #endif
-#define HLS_SIZE 64
+#define HLS_SIZE 128
 #define INTEGER_CONTEXT_SIZE (32 * REGBYTES)
 
 #endif

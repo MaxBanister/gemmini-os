@@ -3,6 +3,7 @@
 #include "mtrap.h"
 #include "bits.h"
 #include "config.h"
+#include "../gemmini/gemmini_harts.h"
 
   .data
   .align 6
@@ -42,6 +43,7 @@ trap_vector:
 
   STORE a0, 10*REGBYTES(sp)
   STORE a1, 11*REGBYTES(sp)
+
 
   csrr a1, mcause
   bgez a1, .Lhandle_trap_in_machine_mode
@@ -282,9 +284,8 @@ do_reset:
   # masked harts never start
   la a4, disabled_hart_mask
   LOAD a4, 0(a4)
-  # It's okay for hart 1 (2 in bitmask) to boot
-  # ~2 == 13
-  and a4, a4, 13
+  li a5, ~GEMMINI_HART_MASK
+  and a4, a4, a5
   srl a4, a4, a3
   andi a4, a4, 1
   bnez a4, .LmultiHart

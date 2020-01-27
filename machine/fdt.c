@@ -6,6 +6,7 @@
 #include "config.h"
 #include "fdt.h"
 #include "mtrap.h"
+#include "../gemmini/gemmini_harts.h"
 
 static inline uint32_t bswap(uint32_t x)
 {
@@ -649,7 +650,7 @@ static void hart_filter_prop(const struct fdt_scan_prop *prop, void *extra)
 
 static bool hart_filter_mask(const struct hart_filter *filter)
 {
-  if (filter->hart == 1) return true;
+  if ((1 << filter->hart) & GEMMINI_HART_MASK) return true;
   if (filter->mmu_type == NULL) return true;
   if (strcmp(filter->status, "okay")) return true;
 #if __riscv_xlen == 32

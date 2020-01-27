@@ -4,7 +4,6 @@ bbl_subproject_deps = \
 	util \
   softfloat \
   machine \
-  tinyrocket \
   dummy_payload \
   gemmini \
 

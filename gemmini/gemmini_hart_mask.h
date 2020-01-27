@@ -1,1 +1,0 @@
-#define GEMMINI_HART_MASK 0x2

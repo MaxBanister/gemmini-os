@@ -7,7 +7,7 @@
 #include "bits.h"
 #include "config.h"
 #include "fdt.h"
-#include "../gemmini/gemmini_hart_mask.h"
+#include "../gemmini/gemmini_harts.h"
 #include <string.h>
 
 /* internal payloads */
@@ -94,7 +94,8 @@ void boot_other_hart(uintptr_t unused __attribute__((unused)))
   long hartid = read_csr(mhartid);
   long hart_bit = 1 << hartid;
 
-  if (hart_bit & disabled_hart_mask) {
+  printm("Disabled hart mask: %lx\r\n", disabled_hart_mask);
+  if (hart_bit & (disabled_hart_mask & ~GEMMINI_HART_MASK)) {
     while (1) {
       __asm__ volatile("wfi");
 #ifdef __riscv_div
