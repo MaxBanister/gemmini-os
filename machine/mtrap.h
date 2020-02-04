@@ -48,8 +48,8 @@ typedef struct {
   volatile uintptr_t* plic_s_ie;
 
   /* Gemmini only fields */
-  volatile uintptr_t satp;
   volatile uintptr_t fp;
+  volatile uintptr_t satp;
   volatile uintptr_t from_hart;
 } hls_t;
 
@@ -95,8 +95,8 @@ static inline void wfi()
 #define MENTRY_FRAME_SIZE (MENTRY_HLS_OFFSET + HLS_SIZE)
 #define MENTRY_IPI_OFFSET (MENTRY_HLS_OFFSET)
 #define MENTRY_IPI_PENDING_OFFSET (MENTRY_HLS_OFFSET + REGBYTES)
-#define MENTRY_SATP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 7)
-#define MENTRY_FP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 8)
+#define MENTRY_FP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 7)
+#define MENTRY_SATP_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 8)
 #define MENTRY_FROM_HART_OFFSET (MENTRY_HLS_OFFSET + REGBYTES * 9)
 
 #ifdef __riscv_flen

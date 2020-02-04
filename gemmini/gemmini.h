@@ -6,6 +6,7 @@
 #ifndef __ASSEMBLER__
 
 #include "encoding.h"
+#include "mcall.h"
 #include <stdint.h>
 #include <string.h>
 #include <stdarg.h>

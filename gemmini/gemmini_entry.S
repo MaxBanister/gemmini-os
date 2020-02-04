@@ -83,10 +83,6 @@ _start:
   .align 2
   .global  trap_entry
 trap_entry:
-  li t3, 0x1337
-  la a0, str3
-  jal ra, janky_print
-
   csrrw sp, sscratch, sp
   bnez sp, 1f
   # Trap came from S-mode
@@ -114,10 +110,22 @@ trap_entry:
   # wait for the next interrupt
 1:wfi
   j 1b
+
+  .global gemmini_get_args
+gemmini_get_args:
+  li a7, SBI_GEMMINI_GET_ARGS
+  ecall
+  ret
   
   .global gemmini_finish
 gemmini_finish:
   li a7, SBI_GEMMINI_FIN
+  ecall
+  ret
+
+  .global mcall_puts
+mcall_puts:
+  li a7, SBI_PUTSTRING
   ecall
   ret
 

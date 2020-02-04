@@ -13,6 +13,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stddef.h>
+#include "../gemmini/gemmini_harts.h"
 
 pte_t* root_page_table;
 uintptr_t mem_size;
@@ -168,7 +169,7 @@ static void wake_harts()
 {
   printm("disabled hart mask in wake_harts(): %lx\r\n", disabled_hart_mask);
   for (int hart = 0; hart < MAX_HARTS; ++hart)
-    if ((((~disabled_hart_mask & hart_mask & 2) >> hart) & 1)) {
+    if ((((~disabled_hart_mask & hart_mask & GEMMINI_HART_MASK) >> hart) & 1)) {
       printm("Waking up hart %d\n", hart);
       *OTHER_HLS(hart)->ipi = 1; // wakeup the hart
     }

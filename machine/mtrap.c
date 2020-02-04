@@ -64,7 +64,6 @@ static void send_ipi(uintptr_t recipient, int event)
   atomic_or(&OTHER_HLS(recipient)->mipi_pending, event);
   mb();
   printm("Sending ipi to hart %d from hart %d\r\n", recipient, read_csr(mhartid));
-  printm("OTHER_HLS ipi: %p\n", OTHER_HLS(recipient)->ipi);
   *OTHER_HLS(recipient)->ipi = 1;
 }
 
@@ -173,8 +172,8 @@ send_ipi:
       break;
     case SBI_GEMMINI_EXEC:
       HLS()->from_hart = -1ULL;
-      OTHER_HLS(GEMMINI_HART)->satp = arg0;
-      OTHER_HLS(GEMMINI_HART)->fp = arg1;
+      OTHER_HLS(GEMMINI_HART)->fp = arg0;
+      OTHER_HLS(GEMMINI_HART)->satp = read_csr(satp);
       OTHER_HLS(GEMMINI_HART)->from_hart = read_csr(mhartid);
       printm("Sending fp to gemmini...\r\n");
 
@@ -191,6 +190,16 @@ send_ipi:
 
       printm("Sending ipi back to sender...\r\n");
       send_ipi(ipi_dest, IPI_SOFT);
+      retval = 0;
+      break;
+    case SBI_GEMMINI_GET_ARGS:
+      /* Technically a0 and a1 are both used to return values, sooo... */
+      retval = HLS()->satp;
+      regs[11] = HLS()->fp;
+      break;
+    /* Expose putstring to S-mode for debugging purposes */
+    case SBI_PUTSTRING:
+      putstring((char *)arg0);
       retval = 0;
       break;
     default:

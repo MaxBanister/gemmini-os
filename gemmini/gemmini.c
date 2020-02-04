@@ -1,55 +1,55 @@
 #include "gemmini.h"
-#include "mtrap.h"
+#include "mcall.h"
 
-extern void janky_print(char *string);
+extern void gemmini_get_args(void);
 extern void gemmini_finish(void);
+extern void mcall_puts(const char *);
 
 static void trap_stub(trapframe_t* tf) {
   // Exit quietly
-  //do_syscall(1, 0, 0, 0, 0, 0, 0);
+  return;
+}
+
+void vprintk(const char* s, va_list vl)
+{
+  char buf[256];
+  vsnprintf(buf, sizeof buf, s, vl);
+  mcall_puts(buf);
+}
+
+void printk(const char* s, ...)
+{
+  va_list vl;
+
+  va_start(vl, s);
+  vprintk(s, vl);
+  va_end(vl);
 }
 
 static void handle_interrupt(trapframe_t* tf)
 {
-  long satp, fp, from_hart;
+  long satp, fp;
+  register uintptr_t a0 asm("a0");
+  register uintptr_t a1 asm("a1");
+
   clear_csr(sip, SIP_SSIP);
   
-  janky_print("Girl, interrupted\r\n");
+  printk("Girl, interrupted\n");
 
-  satp = HLS()->satp, fp = HLS()->fp, from_hart = HLS()->from_hart;
+  /* Magically populates a0 and a1 */
+  gemmini_get_args();
 
-  if (!(satp && fp)) {
-    janky_print("Interrupted without HLS fields set\r\n");
+  satp = a0, fp = a1;
+  if (!(fp)) {
+    printk("Interrupted without HLS fields set\n");
     return;
   }
 
-  janky_print("Satp first byte:\r\n");
-  uint64_t x = 0;
-  do {
-    x = ((satp % 10) + 48);
-    janky_print((char *)&x); 
-    satp /= 10;
-  } while (satp > 0);
-  janky_print("\r\nFp first byte:\r\n");
-  x = 0;
-  do {
-    x = ((fp % 10) + 48);
-    janky_print((char *)&x); 
-    fp /= 10;
-  } while (fp > 0);
-  janky_print("\r\nFrom hart first byte:\r\n");
-  x = 0;
-  do {
-    x = ((from_hart % 10) + 48);
-    janky_print((char *)&x); 
-    from_hart /= 10;
-  } while (from_hart > 0);
-  janky_print("\r\n");
+  printk("satp: %lx\n", satp);
+  printk("fp: %lx\n", fp);
 
   /* Return to sender */
-  asm("li t0, 0x1337");
   gemmini_finish();
-  janky_print("After gemmini_finish\n");
 }
 
 static void handle_syscall(trapframe_t* tf)
@@ -68,13 +68,10 @@ void handle_trap(trapframe_t* tf)
 {
   if ((intptr_t)tf->cause < 0) {
     handle_interrupt(tf);
-    janky_print("After handle_interrupt\n");
     return;
   }
 
-  int x = tf->cause + 48;
-  janky_print((char *)&x);
-  janky_print("\nExc\n");
+  printk("Exception cause value: %d\n", tf->cause);
 
   typedef void (*trap_handler)(trapframe_t*);
 

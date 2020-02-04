@@ -14,5 +14,7 @@
 #define SBI_SHUTDOWN 8
 #define SBI_GEMMINI_EXEC 9
 #define SBI_GEMMINI_FIN 10
+#define SBI_GEMMINI_GET_ARGS 11
+#define SBI_PUTSTRING 12
 
 #endif
