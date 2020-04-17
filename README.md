@@ -21,7 +21,7 @@ The firmware is essentially a fork of Berkeley Bootloader, as the mechanisms for
 ```
 autoconf
 cd build
-../configure --prefix=$RISCV --host=riscv64-unknown-linux-gnu --with-payload=/PATH_TO_LINUX/vmlinux --with-payload1=bbl
+../configure --prefix=$RISCV --host=riscv64-unknown-linux-gnu --with-payload=/PATH_TO_LINUX/vmlinux --with-payload1=gemmini
 make
 ```
 
