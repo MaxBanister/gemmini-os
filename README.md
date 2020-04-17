@@ -1,6 +1,7 @@
 # GemminiOS / Firmware
 
 **Author:** Max Banister
+
 **Email:** maxbanister@berkeley.edu
 
 Companion software to [Gemmini Device Driver](https://github.com/MaxBanister/gemmini-device-driver)
